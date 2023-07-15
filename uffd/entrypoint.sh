@@ -9,7 +9,7 @@ if [[ "${UFFD_GROUPS}" == "" ]]; then
   uffd-admin group create 'uffd_access' --description 'Access to SSO'
   uffd-admin group create 'uffd_admin' --description 'Access to administer UFFD'
   uffd-admin role create 'base' --default --add-group 'uffd_access'
-  uffd-admin role create 'admin' --default --add-group 'uffd_admin'
+  uffd-admin role create 'admin' --add-group 'uffd_admin'
   uffd-admin user create 'testuser' --password 'userpassword' --mail 'test@example.org' --displayname 'Test User'
   uffd-admin user create 'testadmin' --password 'adminpassword' --mail 'admin@example.org' --displayname 'Test Admin' --add-role 'admin'
 fi
