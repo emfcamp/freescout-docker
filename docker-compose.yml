@@ -45,6 +45,15 @@ services:
       MARIADB_PASSWORD: freescout
       MARIADB_DATABASE: freescout
 
+  uffd:
+    build:
+      context: ./uffd
+    ports:
+      - 5000:5000
+    volumes:
+      - uffd:/var/lib/uffd
+
 volumes:
   freescout_data:
   database:
+  uffd:
