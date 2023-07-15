@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      # Mount /var/www/html from the data populated by Freescout
+      - type: volume
+        source: www
+        target: /var/www/html
+        read_only: true
+        volume:
+          nocopy: true
+    links:
+      - freescout
+
+  freescout:
+    build:
+      context: ./freescout
+    volumes:
+      - type: volume
+        source: www
+        target: /var/www/html
+    ports:
+      - "9000:9000"
+
+volumes:
+  www:
