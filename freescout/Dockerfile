@@ -1,0 +1,1 @@
+FROM tiredofit/freescout:latest
