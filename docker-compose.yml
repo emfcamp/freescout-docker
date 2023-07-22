@@ -9,6 +9,7 @@ services:
     links:
       - database
       - uffd-ldap
+      - vouch
     volumes:
       - freescout_data:/data
     environment:
@@ -28,6 +29,24 @@ services:
       ENABLE_SSL_PROXY: FALSE
       DISPLAY_ERRORS: TRUE
     restart: always
+
+  vouch:
+    image: quay.io/vouch/vouch-proxy
+    ports:
+      - 9090:9090
+    environment:
+      VOUCH_DOCUMENT_ROOT: /vouch
+      VOUCH_COOKIE_DOMAIN: "100.91.80.68"
+      VOUCH_COOKIE_SECURE: "false"
+      VOUCH_ALLOWALLUSERS: "true"
+      VOUCH_POST_LOGOUT_REDIRECT_URIS: http://100.91.80.68
+      OAUTH_PROVIDER: oidc
+      OAUTH_CLIENT_ID: EC98BF80-5C78-4810-B83B-1FA4E7B56E36
+      OAUTH_CLIENT_SECRET: 92F26BA2-776D-4E8D-8A8F-9BA7B45B72BA
+      OAUTH_CALLBACK_URL: http://100.91.80.68/vouch/auth
+      OAUTH_AUTH_URL: http://localhost:5000/oauth2/authorize
+      OAUTH_TOKEN_URL: http://uffd:5000/oauth2/token
+      OAUTH_USER_INFO_URL: http://uffd:5000/oauth2/userinfo
 
   database:
     image: mariadb
