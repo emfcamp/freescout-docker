@@ -6,10 +6,6 @@ services:
       context: ./freescout
     ports:
       - 80:80
-    links:
-      - database
-      - uffd-ldap
-      - vouch
     volumes:
       - freescout_data:/data
     environment:
@@ -19,11 +15,11 @@ services:
       DB_HOST: database
       DB_NAME: freescout
       DB_USER: freescout
-      DB_PASS: freescout
+      DB_PASS: "${DATABASE_USER_PASSWORD}"
 
-      SITE_URL: http://100.91.80.68
-      ADMIN_EMAIL: admin@example.org
-      ADMIN_PASS: password
+      SITE_URL: "${PROTOCOL}://${DOMAIN}"
+      ADMIN_EMAIL: "${FREESCOUT_ADMIN_EMAIL}"
+      ADMIN_PASS: "${FREESCOUT_ADMIN_PASSWORD}"
       TIMEZONE: Europe/London
 
       ENABLE_SSL_PROXY: FALSE
@@ -36,54 +32,28 @@ services:
       - 9090:9090
     environment:
       VOUCH_DOCUMENT_ROOT: /vouch
-      VOUCH_COOKIE_DOMAIN: "100.91.80.68"
-      VOUCH_COOKIE_SECURE: "false"
+      VOUCH_COOKIE_DOMAIN: "${DOMAIN}"
+      VOUCH_COOKIE_SECURE: "${SECURE_COOKIES}"
       VOUCH_ALLOWALLUSERS: "true"
-      VOUCH_POST_LOGOUT_REDIRECT_URIS: http://100.91.80.68
+      VOUCH_POST_LOGOUT_REDIRECT_URIS: "${PROTOCOL}://${DOMAIN}"
       OAUTH_PROVIDER: oidc
-      OAUTH_CLIENT_ID: EC98BF80-5C78-4810-B83B-1FA4E7B56E36
-      OAUTH_CLIENT_SECRET: 92F26BA2-776D-4E8D-8A8F-9BA7B45B72BA
-      OAUTH_CALLBACK_URL: http://100.91.80.68/vouch/auth
-      OAUTH_AUTH_URL: http://localhost:5000/oauth2/authorize
-      OAUTH_TOKEN_URL: http://uffd:5000/oauth2/token
-      OAUTH_USER_INFO_URL: http://uffd:5000/oauth2/userinfo
+      OAUTH_CLIENT_ID: "${OAUTH_CLIENT_ID}"
+      OAUTH_CLIENT_SECRET: "${OAUTH_CLIENT_SECRET}"
+      OAUTH_CALLBACK_URL: "${PROTOCOL}://${DOMAIN}/vouch/auth"
+      OAUTH_AUTH_URL: "${UFFD_URL}/oauth2/authorize"
+      OAUTH_TOKEN_URL: "${UFFD_URL}/oauth2/token"
+      OAUTH_USER_INFO_URL: "${UFFD_URL}/oauth2/userinfo"
 
   database:
     image: mariadb
     volumes:
       - database:/var/lib/mysql
     environment:
-      MARIADB_ROOT_PASSWORD: password
+      MARIADB_ROOT_PASSWORD: "${DATABASE_ROOT_PASSWORD}"
       MARIADB_USER: freescout
-      MARIADB_PASSWORD: freescout
+      MARIADB_PASSWORD: "${DATABASE_USER_PASSWORD}"
       MARIADB_DATABASE: freescout
-
-  uffd:
-    build:
-      context: ./uffd
-      target: web
-    ports:
-      - 5000:5000
-    volumes:
-      - uffd:/var/lib/uffd
-
-  uffd-ldap:
-    build:
-      context: ./uffd
-      target: ldap
-    environment:
-      SERVER_API_URL: http://uffd:5000
-      SERVER_API_USER: ldap
-      SERVER_API_SECRET: password
-      SERVER_BASE_DN: dc=example,dc=org
-      SERVER_BIND_PASSWORD: password
-      SERVER_SOCKET_ADDRESS: 0.0.0.0:389
-    ports:
-      - 389:389
-    links:
-      - uffd
 
 volumes:
   freescout_data:
   database:
-  uffd:

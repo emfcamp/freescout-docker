@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  uffd:
+    build:
+      context: ./uffd
+      target: web
+    ports:
+      - 5000:5000
+    volumes:
+      - uffd:/var/lib/uffd
+
+  uffd-ldap:
+    build:
+      context: ./uffd
+      target: ldap
+    environment:
+      SERVER_API_URL: "${UFFD_URL}"
+      SERVER_API_USER: ldap
+      SERVER_API_SECRET: password
+      SERVER_BASE_DN: dc=example,dc=org
+      SERVER_BIND_PASSWORD: password
+      SERVER_SOCKET_ADDRESS: 0.0.0.0:389
+    ports:
+      - 389:389
+
+volumes:
+  uffd:
