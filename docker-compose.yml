@@ -60,10 +60,10 @@ services:
       target: ldap
     environment:
       SERVER_API_URL: "${UFFD_URL}"
-      SERVER_API_USER: ldap
-      SERVER_API_SECRET: password
-      SERVER_BASE_DN: dc=example,dc=org
-      SERVER_BIND_PASSWORD: password
+      SERVER_API_USER: "${UFFD_LDAP_USER}"
+      SERVER_API_SECRET: "${UFFD_LDAP_PASSWORD}"
+      SERVER_BASE_DN: "${BASE_DN}"
+      SERVER_BIND_PASSWORD: "${UFFD_LDAP_BIND_PASSWORD}"
       SERVER_SOCKET_ADDRESS: 0.0.0.0:389
     ports:
       - 389:389
