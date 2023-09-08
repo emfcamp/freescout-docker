@@ -8,10 +8,10 @@ for authentication.
 We use [Vouch](https://github.com/vouch/vouch-proxy/) in conjunction with Nginx's
 `auth_request` support to force user's to perform authentication against an OIDC
 provider (in our case [UFFD](https://git.cccv.de/uffd/uffd)) before they can
-access Freescale. Nginx will pass the logged in user's username in the `X_AUTH_USER`
-FastCGI variable to Freescale if the user is authenticated.
+access Freescout. Nginx will pass the logged in user's username in the `X_AUTH_USER`
+FastCGI variable to Freescout if the user is authenticated.
 
-Freescale regularly queries the UFFD LDAP directory and creates user accounts
+Freescout regularly queries the UFFD LDAP directory and creates user accounts
 for anyone with access, setting access to appropriate mailboxes based on group
 memberships.
 
@@ -25,7 +25,7 @@ Here's a pretty picture of how all that fits together:
 
 ## Deployment
 
-1. Create a service and OAuth client for Freescale in UFFD. The redirect URI is
+1. Create a service and OAuth client for Freescout in UFFD. The redirect URI is
   `http://example.org/vouch/auth` and logout URI is `GET http://example.org/vouch/logout`.
 2. Update the values in `.env` (or set environment variables via some other method)
    to match your actual setup.
@@ -33,16 +33,16 @@ Here's a pretty picture of how all that fits together:
 4. You should now be able to access the Freescout instance. After OAuth you'll
    be presented with a log in screen. Use the default username and password from
    `.env` to log in.
-5. Follow the steps in Freescale Setup below.
+5. Follow the steps in Freescout Setup below.
 
 ## Development
 
 `docker compose -f docker-compose.yml -f docker-compose.dev.yml up` will bring
-up a stack consisting of the Freescale setup, plus UFFD configured with some
+up a stack consisting of the Freescout setup, plus UFFD configured with some
 test users. `testadmin / adminpassword` will log you in as an administrator,
 `testuser / userpassword` as a standard user.
 
-## Freescale Setup
+## Freescout Setup
 
 This all assumes you're running with the default settings from `.env`. Change them
 if you're not.
