@@ -5,9 +5,13 @@ services:
     build:
       context: ./freescout
     ports:
-      - 80:80
+      - 8136:80
     volumes:
       - freescout_data:/data
+    depends_on:
+      - database
+      - vouch
+      - uffd-ldap
     environment:
       CONTAINER_NAME: freescout
       CONTAINER_ENABLE_MONITORING: FALSE
@@ -28,8 +32,6 @@ services:
 
   vouch:
     image: quay.io/vouch/vouch-proxy:0.39
-    ports:
-      - 9090:9090
     environment:
       VOUCH_DOCUMENT_ROOT: /vouch
       VOUCH_COOKIE_DOMAIN: "${DOMAIN}"
@@ -65,8 +67,6 @@ services:
       SERVER_BASE_DN: "${BASE_DN}"
       SERVER_BIND_PASSWORD: "${UFFD_LDAP_BIND_PASSWORD}"
       SERVER_SOCKET_ADDRESS: 0.0.0.0:389
-    ports:
-      - 389:389
 
 volumes:
   freescout_data:
