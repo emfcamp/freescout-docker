@@ -14,7 +14,7 @@ services:
       - uffd-ldap
     environment:
       CONTAINER_NAME: freescout
-      CONTAINER_ENABLE_MONITORING: FALSE
+      CONTAINER_ENABLE_MONITORING: "FALSE"
 
       DB_HOST: database
       DB_NAME: freescout
@@ -26,8 +26,8 @@ services:
       ADMIN_PASS: "${FREESCOUT_ADMIN_PASSWORD}"
       TIMEZONE: Europe/London
 
-      ENABLE_SSL_PROXY: FALSE
-      DISPLAY_ERRORS: TRUE
+      ENABLE_SSL_PROXY: "FALSE"
+      DISPLAY_ERRORS: "TRUE"
     restart: always
 
   vouch:
