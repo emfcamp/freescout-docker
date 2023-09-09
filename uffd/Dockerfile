@@ -1,10 +1,9 @@
 FROM debian:bullseye AS base
 
-COPY cccv-archive-key.gpg /etc/apt/trusted.gpg.d/
-COPY sources.list /etc/apt/sources.list.d/cccv.list
+RUN apt-get update && apt-get install -y curl gnupg2 ca-certificates
 
-# Because of course we need to install CA certs.
-RUN apt-get update && apt-get install -y ca-certificates
+COPY sources.list /etc/apt/sources.list.d/cccv.list
+RUN curl -fsSL https://packages.cccv.de/docs/cccv-archive-key.gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/cccv.gpg
 RUN apt-get update
 
 FROM base AS web
