@@ -47,7 +47,7 @@ services:
       OAUTH_USER_INFO_URL: "${UFFD_URL}/oauth2/userinfo"
 
   database:
-    image: mariadb:11.1
+    image: mariadb:10.7
     volumes:
       - database:/var/lib/mysql
     environment:
