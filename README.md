@@ -54,17 +54,18 @@ if you're not.
    2. Port: `389`
    3. Bind DN: `ou=system,dc=example,dc=org`
    4. Bind Username: `service`
-   5. Bind Password: `password`
-   6. Click "Connect & Fetch Attributes"
-   7. Map `mail` to Email, `cn` to First Name, and `sn` to everything else (this is a nasty
+   5. Bind Password: `$UFFD_LDAP_BIND_PASSWORD` from the .env file
+   6. Set the filter to `ou=users,dc=example,dc=org(objectclass=person)`.
+   7. Save the settings, or the following step will fail.
+   8. Click "Connect & Fetch Attributes"
+   9. Map `mail` to Email, `cn` to First Name, and `sn` to everything else (this is a nasty
       hack taking advantage of UFFD not setting a surname field to allow optional fields to
       be ignored).
-   8. DNs and Filters: `dc=example,dc=or(objectclass=person)` to import all users
-   9. Toggle Automatic Import on
-   10. Toggle Automatic Permission Sync on
-   11. Toggle LDAP Authentication on
-   12. Set $_SERVER key to `X_AUTH_USER`
-   13. Set Locate users by to `mail`
+   10. Toggle Automatic Import on
+   11. Toggle Automatic Permission Sync on
+   12. Toggle LDAP Authentication on
+   13. Set $_SERVER key to `X_AUTH_USER`
+   14. Set Locate users by to `mail`
 4. Go to Manage -> Users, and grant your own user the Administrator role.
 
 If you delete all your cookies and log back in you should now be dropped straight
