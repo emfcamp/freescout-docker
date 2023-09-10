@@ -28,6 +28,7 @@ services:
 
       ENABLE_SSL_PROXY: "FALSE"
       DISPLAY_ERRORS: "TRUE"
+      APP_NEW_FETCHING_LIBRARY: "TRUE"
     restart: always
 
   vouch:
