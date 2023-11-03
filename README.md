@@ -42,12 +42,19 @@ up a stack consisting of the Freescout setup, plus UFFD configured with some
 test users. `testadmin / adminpassword` will log you in as an administrator,
 `testuser / userpassword` as a standard user.
 
+Then create a service and OAuth client, with redirect URI `http://localhost:8136/vouch/auth`
+and logout URI `GET http://localhost:8136/vouch/logout`. The client ID and secret should
+match your `.env` file, or you can leave them empty and afterwards update `.env` and restart.
+
+Also add an LDAP service and API client with username and password matching `UFFD_LDAP_USER`
+and `UFFD_LDAP_PASSWORD`. Give it access to `users` and `checkpassword`.
+
 ## Freescout Setup
 
-This all assumes you're running with the default settings from `.env`. Change them
+This all assumes you're running with the default settings from `.env.example`. Change them
 if you're not.
 
-1. Log in as admin@example.org with the password `password`.
+1. Log in as admin@example.org with the password `freescout`.
 2. Activate the LDAP module.
 3. Go to LDAP settings
    1. LDAP Host: `uffd-ldap`

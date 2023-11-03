@@ -21,7 +21,7 @@ services:
       DB_USER: freescout
       DB_PASS: "${DATABASE_USER_PASSWORD}"
 
-      SITE_URL: "${PROTOCOL}://${DOMAIN}"
+      SITE_URL: "${PROTOCOL}://${DOMAIN}${PORT:+:}${PORT:-}"
       ADMIN_EMAIL: "${FREESCOUT_ADMIN_EMAIL}"
       ADMIN_PASS: "${FREESCOUT_ADMIN_PASSWORD}"
       TIMEZONE: Europe/London
@@ -38,12 +38,12 @@ services:
       VOUCH_COOKIE_DOMAIN: "${DOMAIN}"
       VOUCH_COOKIE_SECURE: "${SECURE_COOKIES}"
       VOUCH_ALLOWALLUSERS: "true"
-      VOUCH_POST_LOGOUT_REDIRECT_URIS: "${PROTOCOL}://${DOMAIN}"
+      VOUCH_POST_LOGOUT_REDIRECT_URIS: "${PROTOCOL}://${DOMAIN}${PORT:+:}${PORT:-}"
       OAUTH_PROVIDER: oidc
       OAUTH_CLIENT_ID: "${OAUTH_CLIENT_ID}"
       OAUTH_CLIENT_SECRET: "${OAUTH_CLIENT_SECRET}"
-      OAUTH_CALLBACK_URL: "${PROTOCOL}://${DOMAIN}/vouch/auth"
-      OAUTH_AUTH_URL: "${UFFD_URL}/oauth2/authorize"
+      OAUTH_CALLBACK_URL: "${PROTOCOL}://${DOMAIN}${PORT:+:}${PORT:-}/vouch/auth"
+      OAUTH_AUTH_URL: "${UFFD_EXT_URL:-${UFFD_URL}}/oauth2/authorize"
       OAUTH_TOKEN_URL: "${UFFD_URL}/oauth2/token"
       OAUTH_USER_INFO_URL: "${UFFD_URL}/oauth2/userinfo"
 
