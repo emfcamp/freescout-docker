@@ -9,6 +9,10 @@ services:
       - 5000:5000
     volumes:
       - uffd:/var/lib/uffd
+  
+  freescout:
+    environment:
+      DISPLAY_ERRORS: "TRUE"
 
 volumes:
   uffd:
