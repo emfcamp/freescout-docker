@@ -45,6 +45,7 @@ services:
       OAUTH_AUTH_URL: "${UFFD_EXT_URL:-${UFFD_URL}}/oauth2/authorize"
       OAUTH_TOKEN_URL: "${UFFD_URL}/oauth2/token"
       OAUTH_USER_INFO_URL: "${UFFD_URL}/oauth2/userinfo"
+    restart: always
 
   database:
     image: mariadb:10.7
@@ -67,6 +68,7 @@ services:
       SERVER_BASE_DN: "${BASE_DN}"
       SERVER_BIND_PASSWORD: "${UFFD_LDAP_BIND_PASSWORD}"
       SERVER_SOCKET_ADDRESS: 0.0.0.0:389
+    restart: always
 
 volumes:
   freescout_data:
