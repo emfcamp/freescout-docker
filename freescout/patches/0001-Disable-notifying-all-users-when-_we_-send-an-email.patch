@@ -1,0 +1,34 @@
+From e313643808a7423c9d45419db9363ea33121a703 Mon Sep 17 00:00:00 2001
+From: Jonty Wareing <jonty@jonty.co.uk>
+Date: Tue, 9 Apr 2024 17:00:06 +0100
+Subject: [PATCH] Disable notifying all users when _we_ send an email
+
+---
+ app/Listeners/SendNotificationToUsers.php | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/app/Listeners/SendNotificationToUsers.php b/app/Listeners/SendNotificationToUsers.php
+index 454a7bf2..90136fac 100644
+--- a/app/Listeners/SendNotificationToUsers.php
++++ b/app/Listeners/SendNotificationToUsers.php
+@@ -41,10 +41,17 @@ class SendNotificationToUsers
+                     $event_type = Subscription::EVENT_TYPE_USER_ADDED_NOTE;
+                 }
+                 break;
++/*
++ *  We do not want to do this, as it means that every time we create and send
++ *  an outbound email from one of our inboxes every user on that inbox is
++ *  notified. This gets extremely noisy when bulk contacting people about
++ *  talks, sponsorship, or quotes.
++ *
+             case 'App\Events\UserCreatedConversation':
+                 $caused_by_user_id = $event->conversation->created_by_user_id;
+                 $event_type = Subscription::EVENT_TYPE_NEW;
+                 break;
++*/
+             case 'App\Events\CustomerCreatedConversation':
+                 // Do not send notification if conversation is spam.
+                 if ($event->conversation->status != Conversation::STATUS_SPAM) {
+-- 
+2.40.0
+
