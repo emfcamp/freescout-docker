@@ -1,4 +1,4 @@
-FROM tiredofit/freescout:latest
+FROM tiredofit/freescout:php8.3-1.17.104
 
 COPY nginx.conf /etc/nginx/sites.available/freescout.conf
 
