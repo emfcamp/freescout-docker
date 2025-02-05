@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: "docker"
+    directory: "/freescout/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/uffd/"
+    schedule:
+      interval: "weekly"
