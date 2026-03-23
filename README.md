@@ -5,11 +5,13 @@ This repository contains the configuration for [EMF](https://emfcamp.org)'s
 makes use of Nginx as a reverse proxy, and [UFFD](https://git.cccv.de/uffd/uffd)
 for authentication.
 
-We use [Vouch](https://github.com/vouch/vouch-proxy/) in conjunction with Nginx's
-`auth_request` support to force user's to perform authentication against an OIDC
-provider (in our case [UFFD](https://git.cccv.de/uffd/uffd)) before they can
-access Freescout. Nginx will pass the logged in user's username in the `X_AUTH_USER`
-FastCGI variable to Freescout if the user is authenticated.
+Our protection is now upstream of our Freescout deployment, so isn't contained
+here, and makes use of
+[uffd-nginxauth](https://git.cccv.de/uffd/uffd-nginxauth) in a separate Nginx
+instance, which communicates the authenticated user in the `REMOTE-USER`
+header.  The Nginx deployment inside this repo will read this header and pass
+the logged in user's username in the `X_AUTH_USER` FastCGI variable to
+Freescout.
 
 Freescout regularly queries the UFFD LDAP directory and creates user accounts
 for anyone with access, setting access to appropriate mailboxes based on group
@@ -19,30 +21,31 @@ There's also an IMAP & SMTP server somewhere which provides Freescout with
 access to the actual emails that are being handled. That's provided by [waves
 arms vaguely] something. We'll work that bit out if we get that far.
 
-Here's a pretty picture of how all that fits together:
+Here's a pretty picture of how all that fits together (now outdated):
 
 ![Diagram](./doc/diagram.png)
 
 ## Deployment
 
-1. Create a service and OAuth client for Freescout in UFFD. The redirect URI is
-  `http://example.org/vouch/auth` and logout URI is `GET http://example.org/vouch/logout`.
-2. Update the values in `.env` (or set environment variables via some other method)
+1. Update the values in `.env` (or set environment variables via some other method)
    to match your actual setup.
-3. `docker compose up` to start the neccessary services.
-4. You should now be able to access the Freescout instance. After OAuth you'll
-   be presented with a log in screen. Use the default username and password from
-   `.env` to log in.
+2. `docker compose up` to start the necessary services.
+3. You'll need a separate proxy instance set up to provide the `REMOTE-USER`
+   HTTP header, or provide it yourself for development purposes.
+4. You should now be able to access the Freescout instance. Use the default
+   username and password from `.env` to log in.
 5. Follow the steps in Freescout Setup below.
 
 ## Development
+
+TODO: this is currently broken since vouch was ripped out.
 
 `docker compose -f docker-compose.yml -f docker-compose.dev.yml up` will bring
 up a stack consisting of the Freescout setup, plus UFFD configured with some
 test users. `testadmin / adminpassword` will log you in as an administrator,
 `testuser / userpassword` as a standard user.
 
-Then create a service and OAuth client, with redirect URI `http://localhost:8136/vouch/auth`
+Then create a service and OAuth client, with redirect URI `http://localhost:8136/`
 and logout URI `GET http://localhost:8136/vouch/logout`. The client ID and secret should
 match your `.env` file, or you can leave them empty and afterwards update `.env` and restart.
 
