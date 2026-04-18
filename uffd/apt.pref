@@ -1,0 +1,7 @@
+Package: *
+Pin: origin emfcamp.github.io
+Pin-Priority: 700
+
+Package: *
+Pin: origin packages.cccv.de
+Pin-Priority: 200

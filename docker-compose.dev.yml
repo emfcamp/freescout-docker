@@ -2,3 +2,44 @@ services:
   freescout:
     environment:
       DISPLAY_ERRORS: "TRUE"
+      SITE_URL: "${PROTOCOL}://${DOMAIN}:8137"
+
+  uffd:
+    build:
+      context: ./uffd
+      target: web
+    ports:
+      - "127.0.0.1:5000:5000"
+    environment:
+      # Used in entrypoint.sh to do provisioning
+      CLIENT_ID: "${OAUTH_CLIENT_ID}"
+      CLIENT_SECRET: "${OAUTH_CLIENT_SECRET}"
+      UFFD_LDAP_USER: "${UFFD_LDAP_USER}"
+      UFFD_LDAP_PASSWORD: "${UFFD_LDAP_PASSWORD}"
+    volumes:
+      - uffd:/var/lib/uffd
+
+  uffd-ldapd:
+    build:
+      context: ./uffd
+      target: ldap
+    environment:
+      SERVER_API_URL: "http://uffd:5000"
+      SERVER_API_USER: "${UFFD_LDAP_USER}"
+      SERVER_API_SECRET: "${UFFD_LDAP_PASSWORD}"
+      SERVER_BASE_DN: "dc=example,dc=com"
+      SERVER_BIND_PASSWORD: "${UFFD_LDAP_BIND_PASSWORD}"
+      SERVER_SOCKET_ADDRESS: "0.0.0.0:389"
+
+  uffd-nginxauth:
+    build:
+      context: ./uffd
+      target: nginxauth
+    ports:
+      - "127.0.0.1:8137:80"
+    environment:
+      OAUTH_CLIENT_ID: "${OAUTH_CLIENT_ID}"
+      OAUTH_CLIENT_SECRET: "${OAUTH_CLIENT_SECRET}"
+
+volumes:
+  uffd:

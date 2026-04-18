@@ -38,19 +38,13 @@ Here's a pretty picture of how all that fits together (now outdated):
 
 ## Development
 
-TODO: this is currently broken since vouch was ripped out.
-
 `docker compose -f docker-compose.yml -f docker-compose.dev.yml up` will bring
 up a stack consisting of the Freescout setup, plus UFFD configured with some
 test users. `testadmin / adminpassword` will log you in as an administrator,
 `testuser / userpassword` as a standard user.
 
-Then create a service and OAuth client, with redirect URI `http://localhost:8136/`
-and logout URI `GET http://localhost:8136/vouch/logout`. The client ID and secret should
-match your `.env` file, or you can leave them empty and afterwards update `.env` and restart.
-
-Also add an LDAP service and API client with username and password matching `UFFD_LDAP_USER`
-and `UFFD_LDAP_PASSWORD`. Give it access to `users` and `checkpassword`.
+It will automatically create an OAuth2 client and API client, as long as you don't change
+the settings from `.env.example`.
 
 ## Freescout Setup
 
@@ -60,7 +54,7 @@ if you're not.
 1. Log in as admin@example.org with the password `freescout`.
 2. Activate the LDAP module.
 3. Go to LDAP settings
-   1. LDAP Host: `uffd-ldap`
+   1. LDAP Host: `uffd-ldapd`
    2. Port: `389`
    3. Bind DN: `ou=system,dc=example,dc=org`
    4. Bind Username: `service`
@@ -72,10 +66,13 @@ if you're not.
       hack taking advantage of UFFD not setting a surname field to allow optional fields to
       be ignored).
    10. Toggle Automatic Import on
-   11. Toggle Automatic Permission Sync on
-   12. Toggle LDAP Authentication on
-   13. Set $_SERVER key to `X_AUTH_USER`
-   14. Set Locate users by to `mail`
+   11. Toggle LDAP Authentication on
+   12. Set $_SERVER key to `X_AUTH_USER`
+   13. Set Locate users by to `uid`
+   14. Save the settings.
+   15. Click `Import Now` and acknowledge.
+   16. Toggle Automatic Permission Sync on
+   17. Save the settings.
 4. Go to Manage -> Users, and grant your own user the Administrator role.
 
 If you delete all your cookies and log back in you should now be dropped straight
@@ -89,11 +86,3 @@ Freescout a query to find all the relevant users, which will typically look
 something like `(&(memberOf=cn=group-name,ou=groups,dc=example,dc=org))`.
 
 Any LDAP query that returns a list of users will work.
-
-## Snags
-
-* Nginx is configured to redirect Freescout's logout page to Vouch, so that your
-  OAuth token is revoked. This works in most cases, but if you then log in again
-  as a different user the cookie left behind by Freescout will still think your
-  the user you initially logged in as. Delete all your cookies if you need to
-  change users.

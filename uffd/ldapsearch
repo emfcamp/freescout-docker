@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+exec /usr/bin/ldapsearch -x -H ldap://localhost:389 -D "cn=service,ou=system,$SERVER_BASE_DN" -w "$SERVER_BIND_PASSWORD" "$@"

@@ -1,1 +1,2 @@
-deb [arch=all] https://packages.cccv.de/uffd bullseye main
+deb [signed-by=/etc/apt/keyrings/cccv.gpg] https://packages.cccv.de/uffd bullseye main
+deb [signed-by=/etc/apt/keyrings/emf-uffd.gpg] https://emfcamp.github.io/uffd trixie trixie
