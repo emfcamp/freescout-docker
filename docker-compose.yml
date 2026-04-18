@@ -1,3 +1,7 @@
+networks:
+  default:
+    enable_ipv6: true
+
 services:
   freescout:
     build:
@@ -25,6 +29,8 @@ services:
       ENABLE_SSL_PROXY: "FALSE"
       APP_NEW_FETCHING_LIBRARY: "TRUE"
     restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   database:
     image: mariadb:12.2.2-noble
