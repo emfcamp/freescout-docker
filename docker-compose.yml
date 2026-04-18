@@ -7,7 +7,7 @@ services:
     build:
       context: ./freescout
     ports:
-      - 8136:80
+      - "127.0.0.1:8136:80"
     volumes:
       - freescout_data:/data
     depends_on:
