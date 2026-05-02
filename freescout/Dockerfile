@@ -1,5 +1,5 @@
 # The freescout-docker versions are completely divorced from the freescout version
-FROM tiredofit/freescout:php8.3-1.17.152
+FROM tiredofit/freescout:php8.3-1.17.158
 
 COPY nginx.conf /etc/nginx/sites.available/freescout.conf
 
