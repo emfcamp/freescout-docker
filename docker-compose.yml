@@ -28,6 +28,7 @@ services:
 
       ENABLE_SSL_PROXY: "FALSE"
       APP_NEW_FETCHING_LIBRARY: "TRUE"
+      PHP_MEMORY_LIMIT: "256M"
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
