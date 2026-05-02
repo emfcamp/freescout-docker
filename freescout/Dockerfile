@@ -2,6 +2,7 @@
 FROM tiredofit/freescout:php8.3-1.17.152
 
 COPY nginx.conf /etc/nginx/sites.available/freescout.conf
+COPY php.ini /etc/php83/conf.d/99-freescout-docker.ini
 
 RUN apk add --no-cache patch
 WORKDIR /assets/install
