@@ -1,0 +1,22 @@
+{
+    "name": "AllInboxesMove",
+    "alias": "allinboxesmove",
+    "description": "Allows all users to see and move conversations to any inbox, regardless of mailbox permissions.",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "version": "1.0.0",
+    "detailsUrl": "",
+    "author": "",
+    "authorUrl": "",
+    "requiredAppVersion": "1.0.2",
+    "license": "AGPL-3.0",
+    "providers": [
+        "Modules\\AllInboxesMove\\Providers\\AllInboxesMoveServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}
