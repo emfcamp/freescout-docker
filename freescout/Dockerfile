@@ -9,3 +9,4 @@ COPY patches/0001-Disable-notifying-all-users-when-_we_-send-an-email.patch /ass
 RUN patch -p1 < 0001-Disable-notifying-all-users-when-_we_-send-an-email.patch
 
 COPY Modules /assets/modules
+COPY plugins /assets/modules
