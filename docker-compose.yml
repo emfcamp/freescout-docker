@@ -21,7 +21,7 @@ services:
       DB_USER: freescout
       DB_PASS: "${DATABASE_USER_PASSWORD}"
 
-      SITE_URL: "${PROTOCOL}://${DOMAIN}${PORT:+:}${PORT:-}"
+      APP_URL: "${PROTOCOL}://${DOMAIN}${PORT:+:}${PORT:-}"
       ADMIN_EMAIL: "${FREESCOUT_ADMIN_EMAIL}"
       ADMIN_PASS: "${FREESCOUT_ADMIN_PASSWORD}"
       TIMEZONE: Europe/London

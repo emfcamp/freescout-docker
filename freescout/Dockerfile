@@ -1,12 +1,15 @@
 # The freescout-docker versions are completely divorced from the freescout version
-FROM tiredofit/freescout:php8.3-1.17.999
+FROM ghcr.io/nfrastack/container-freescout:2.2.22
 
-COPY nginx.conf /etc/nginx/sites.available/freescout.conf
+RUN mkdir -p /etc/nginx/sites.enabled/freescout
+COPY fastcgi_params /etc/nginx/sites.enabled/freescout/fastcgi_params
 
 RUN apk add --no-cache patch
-WORKDIR /assets/install
-COPY patches/0001-Disable-notifying-all-users-when-_we_-send-an-email.patch /assets/install/
+WORKDIR /container/data/freescout/install
+COPY patches/0001-Disable-notifying-all-users-when-_we_-send-an-email.patch /container/data/freescout/install
 RUN patch -p1 < 0001-Disable-notifying-all-users-when-_we_-send-an-email.patch
 
-COPY Modules /assets/modules
-COPY plugins /assets/modules
+RUN mkdir -p /data/Modules
+
+COPY Modules /data/modules
+COPY plugins /data/modules
