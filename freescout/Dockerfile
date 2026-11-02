@@ -1,5 +1,5 @@
 # The freescout-docker versions are completely divorced from the freescout version
-FROM ghcr.io/nfrastack/container-freescout:2.2.22
+FROM ghcr.io/nfrastack/container-freescout:2.2.23
 
 RUN mkdir -p /etc/nginx/sites.enabled/freescout
 COPY fastcgi_params /etc/nginx/sites.enabled/freescout/fastcgi_params
